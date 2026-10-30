@@ -1,0 +1,38 @@
+{
+  "_comment": "通用市场元数据模板。各市场 schema 不同，提交前按目标仓库的 registry 格式调整字段名；本文件只保证信息完整、可直接抄。",
+  "id": "dsh-disaster-recovery",
+  "name": "忆匣 / Casket",
+  "package": "dsh-disaster-recovery",
+  "version": "0.8.0",
+  "license": "MIT",
+  "repository": "https://github.com/YarXVI/dsh-disaster-recovery",
+  "homepage": "https://github.com/YarXVI/dsh-disaster-recovery#readme",
+  "description": {
+    "zh": "实时快照整个 DSH_HOME、一键回滚与隔离的灾备插件：64 KiB 内容寻址去重、恢复前自动存档、缺块拒绝恢复、DSH 起不来也能用外部控制台恢复、异地加密副本、黑匣子心跳与外部看门狗。",
+    "en": "Disaster recovery for DeepSeek Harness: real-time content-addressed snapshots of the whole DSH_HOME, one-click rollback with quarantine, refuse-to-restore on missing blocks, offline recovery console when DSH won't boot, encrypted offsite copy, and a crash black box with an external watchdog."
+  },
+  "tags": ["backup", "snapshot", "disaster-recovery", "restore", "encryption", "monitoring", "infrastructure"],
+  "category": "Infrastructure",
+  "install": {
+    "github": "dsh plugin --profile web add github:YarXVI/dsh-disaster-recovery",
+    "local": "dsh plugin --profile web add file:D:\\path\\to\\dsh-disaster-recovery"
+  },
+  "engines": { "node": ">=20" },
+  "platform": ["win32"],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web" }
+  },
+  "highlights": [
+    "64 KiB 内容寻址去重，追加型日志只存尾块",
+    "恢复前自动 pre-restore 快照，覆盖件进隔离区，快照外文件保留",
+    "清单缺块即拒绝恢复，不写半份数据",
+    "DSH 起不来时用 %LOCALAPPDATA% 下的外部控制台恢复",
+    "异地副本只存密文：scrypt + AES-256-GCM + DPAPI",
+    "黑匣子 5 秒心跳 + 外部看门狗 60 秒巡检 + 事故自动保护"
+  ],
+  "screenshots": [
+    "docs/screenshot-overview.png",
+    "docs/screenshot-incident.png"
+  ]
+}

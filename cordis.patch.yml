@@ -1,0 +1,46 @@
+# dsh-disaster-recovery 的默认装配。
+#
+# 只插入一行；运行期可在面板里改参数，改完写进 <备份目录>/config.json，
+# 下次启动时覆盖这里的默认值（备份根目录本身也可以在这改）。
+- insert:
+    - id: disaster-recovery
+      name: 'dsh-disaster-recovery'
+      config:
+        # 备份根目录：必须在 DSH_HOME 之外，否则 DSH 一出事备份一起没。
+        root: 'D:\dsh-backup'
+        enabled: true
+        # 监听文件变化，静止 debounceMs 后做一次增量快照
+        watch: true
+        debounceMs: 9000
+        # 两次快照最短间隔：聊天时日志一直在追加，这个值决定快照节奏
+        minIntervalMs: 60000
+        # 兜底全量扫描（只看 stat，未变化的文件不读）
+        scanMs: 600000
+        # 单个文件大小上限，超过就跳过（运行时/模型不在备份范围内）
+        maxFileBytes: 134217728
+        # 分块大小：追加写的大文件（会话日志）只新增尾块，不做整份重存
+        chunkSize: 65536
+        # 保留策略
+        keepLast: 60
+        keepHourlyHours: 48
+        keepDailyDays: 30
+        # 硬上限：快照总数超过它就从最旧的开始删（默认 100，面板可改，最小 5）
+        maxSnapshots: 100
+        # 相对 DSH_HOME 的排除项（按路径段匹配）
+        excludes:
+          - dsh-runtimes
+        # 异地加密副本（去重仓库）：密码/恢复密码永不写入配置；运行期配置以
+        # <备份目录>/<host>/offsite/config.json 为权威，这里只是首次默认值。
+        offsite:
+          enabled: true
+          # 保留最近 N 份每日档案 + M 份每周档案；超出后从最旧的删
+          retainDaily: 7
+          retainWeekly: 4
+          # 子机暂存配额（字节），超出后拒绝上传
+          quotaBytes: 21474836480
+          # 每日自动导出的本地时间（HH:MM，空 = 不自动导出）；需已缓存 DPAPI 密钥
+          schedule: '04:00'
+          # 每周自动演练一次（临时目录恢复 + 逐文件校验）
+          weeklyDrill: true
+          # 用 Windows DPAPI（当前用户）缓存密钥，供无人值守导出/演练
+          cacheKey: true

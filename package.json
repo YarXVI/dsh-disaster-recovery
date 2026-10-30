@@ -1,0 +1,62 @@
+{
+  "name": "dsh-disaster-recovery",
+  "version": "0.8.0",
+  "private": false,
+  "type": "module",
+  "description": "DeepSeek Harness 数据还原插件（忆匣 / Casket）：实时快照整个 DSH_HOME（内容寻址去重）、面板一键恢复、加密去重异地副本，以及崩溃监控/外部看门狗/外部一键恢复控制台。",
+  "license": "MIT",
+  "author": "The Casket Authors",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "backup",
+    "snapshot",
+    "disaster-recovery",
+    "restore"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YarXVI/dsh-disaster-recovery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YarXVI/dsh-disaster-recovery/issues"
+  },
+  "homepage": "https://github.com/YarXVI/dsh-disaster-recovery#readme",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "src/",
+    "scripts/",
+    "watchdog/",
+    "recovery-console/",
+    "locale/",
+    "docs/",
+    "cordis.patch.yml",
+    "README.md",
+    "DESIGN.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test --test-isolation=none \"test/*.test.mjs\""
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  }
+}
