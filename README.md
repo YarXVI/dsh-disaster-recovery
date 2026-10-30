@@ -37,10 +37,18 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Apply
 
 安装会做四件事：把插件装进 profile、把不依赖 DSH 的恢复工具复制到 `%LOCALAPPDATA%\DeepSeek Recovery`、创建「Deepseek恢复」快捷方式、打印后续操作。装完重启 DSH，左侧栏出现「忆匣」。
 
-也可以从市场一键装（仓库发布后）：
+**从插件市场安装（推荐，不需要 git）**
+
+在 DSH 里：**插件 → 实验性插件旁「更多」→ 打开「自定义插件市场」→ 发现 → 添加索引源**，填入：
+
+```
+https://yarxvi.github.io/dsh-plugin-dsh-sync/market/index.json
+```
+
+搜索「忆匣 / Casket」安装；也可以直接用 npm 源：
 
 ```powershell
-dsh plugin --profile web add github:YarXVI/dsh-disaster-recovery
+dsh plugin --profile web add dsh-disaster-recovery@0.8.0
 ```
 
 ## 三步上手
